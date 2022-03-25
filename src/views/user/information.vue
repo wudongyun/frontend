@@ -84,7 +84,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http
-            .get("http://localhost:8080/ProjectWeb/InfoServlet", {params:
+            .get("http://175.27.129.16:8080/paperplane2021/InfoServlet", {params:
                 { method: 'update',
                   username: this.ruleForm.username,
                   // password: this.ruleForm.password,
@@ -104,7 +104,7 @@ export default {
     },
     initData(){
       this.$http
-        .get("http://localhost:8080/ProjectWeb/InfoServlet", {params:
+        .get("http://175.27.129.16:8080/paperplane2021/InfoServlet", {params:
             { method: 'view',
               username: this.$store.state.username
             }}, {emulateJSON: true})

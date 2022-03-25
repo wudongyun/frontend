@@ -99,7 +99,7 @@ export default {
     },
     change(){
       this.$http
-        .get("http://localhost:8080/ProjectWeb/PaperServlet", {params:
+        .get("http://175.27.129.16:8080/paperplane2021/PaperServlet", {params:
             { method: 'save',
               id: this.form.id,
               contributor_id: this.form.contributor_id,

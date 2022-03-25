@@ -38,7 +38,7 @@ export default {
     initData(){
       for(let i = 0; i < 8 ; i++) {
         this.$http
-          .get("http://localhost:8080/ProjectWeb/PaperServlet", {
+          .get("http://175.27.129.16:8080/paperplane2021/PaperServlet", {
             params: {
               method: 'list',
               channel: this.headerlist[i].name,

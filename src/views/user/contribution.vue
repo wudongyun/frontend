@@ -197,12 +197,14 @@ export default {
     commit(formName) {
       this.form.create_time=this.getNewDate()
       this.form.update_time=this.getNewDate()
-      this.form.contributor_id=this.$store.state.username
+      this.form.contributor_id=this.$store.state.userid
+      this.form.contributor_name=this.$store.state.username
       console.log(this.form)
       this.$http
-        .get("http://localhost:8080/ProjectWeb/PaperServlet", {params:
+        .get("http://175.27.129.16:8080/paperplane2021/PaperServlet", {params:
             { method: 'save',
               contributor_id: this.form.contributor_id,
+              contributor_name: this.form.contributor_name,
               paper_author: this.form.contributor_name,
               create_time: this.form.create_time,
               update_time: this.form.update_time,

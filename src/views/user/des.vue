@@ -12,7 +12,7 @@
     <p>英文摘要：{{ form.abstract_eng }}</p>
     <p>拟投栏目：{{ form.channel }}</p>
     <p>关键字：{{ form.keyword }}</p>
-    <p>稿件pdf：<a href="../../assets/DNNV.pdf" download="稿件pdf.pdf" style="color: #20a0ff">点击这里下载</a></p>
+    <p>稿件pdf：<a href="../../assets/DNNV.pdf" download="2021-12-31.pdf" style="color: #20a0ff">点击这里下载</a></p>
     <div style="width:800px;height:1px;margin-left: 1px;padding:0px;overflow:hidden;background-color: black"></div>
     <p>审稿人：{{ form.reviewer_list }}</p>
     <p>稿件评语：{{ form.reviewer_comment }}</p>

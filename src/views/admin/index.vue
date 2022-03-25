@@ -1,50 +1,61 @@
 <template>
-  <div class="page">
-    <el-container>
-      <el-header class="header">
-        <el-dropdown class="header-container">
-          <div class="img">
-            <img src="../../assets/images/pro.jpg" class="user-avatar">
-          </div>
-          <el-dropdown-menu slot="dropdown" class="user-dropdown">
-            <router-link to="/index">
-              <el-dropdown-item>
-                主页
-              </el-dropdown-item>
-            </router-link>
-            <el-dropdown-item @click.native="logout">
-              <span style="display:block;">退出</span>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </el-header>
-      <el-container>
-        <div class="aside">
-          <el-aside style="width: 200px;height: 600px">
-            <el-menu
-              :default-active="this.$route.path"
-              class="menu"
-              background-color="#b7b7a4"
-              @select="handleSelect"
-              router
-              text-color="#000"
-              active-text-color="#000">
-              <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span> {{ item.navItem }}</span>
-                </template>
-              </el-menu-item>
-            </el-menu>
-          </el-aside>
-        </div>
-        <el-container>
-          <el-main class="main">
-            <router-view/>
-          </el-main>
-        </el-container>
-      </el-container>
-    </el-container>
+  <div class="page" style="height: 100%">
+    <div class="top">
+      <div class="div-1" />
+      <div class="div-2" />
+      <!--      <img class="image" src="@/assets/images/header.jpg" alt="header">-->
+    </div>
+    <div class="content">
+      <div class="aside">
+        <el-menu
+          active-text-color="#86afba"
+          background-color="#1f2e41"
+          class="el-menu-vertical-demo"
+          default-active="1"
+          text-color="#fff"
+        >
+          <router-link to="/admin/frontpage">
+            <el-menu-item index="1">
+              <i class="el-icon-s-home" />
+              <span style="margin-left: 15px">首页</span>
+            </el-menu-item>
+          </router-link>
+          <router-link to="/admin/record">
+            <el-menu-item index="2">
+              <i class="el-icon-s-management" />
+              <span style="margin-left: 15px">咨询记录</span>
+            </el-menu-item>
+          </router-link>
+          <router-link to="/admin/schedule">
+            <el-menu-item index="3">
+              <i class="el-icon-date" />
+              <span style="margin-left: 15px">排班表</span>
+            </el-menu-item>
+          </router-link>
+          <router-link to="/admin/consultant">
+            <el-menu-item index="4">
+              <i class="el-icon-s-custom" />
+              <span style="margin-left: 15px">咨询师管理</span>
+            </el-menu-item>
+          </router-link>
+          <router-link to="/admin/helper">
+            <el-menu-item index="5">
+              <i class="el-icon-s-check" />
+              <span style="margin-left: 15px">督导管理</span>
+            </el-menu-item>
+          </router-link>
+          <router-link to="/admin/visitor">
+            <el-menu-item index="6">
+              <i class="el-icon-place" />
+              <span style="margin-left: 15px">访客管理</span>
+            </el-menu-item>
+          </router-link>
+        </el-menu>
+      </div>
+      <div class="main">
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,58 +63,58 @@
 export default {
   data() {
     return {
-      navList: [
-        {name: '/admin/thesis', navItem: '稿件管理'},
-        {name: '/admin/user', navItem: '用户管理'},
-        {name: '/admin/review', navItem: '审稿员管理'},
-        {name: '/admin/information', navItem: '个人信息'}
-      ]
+      navList: ''
     }
   },
   methods: {
     handleSelect(key, keyPath) {
       // console.log(key, keyPath);
     },
-    logout(){
-      this.$store.state.username=''
-      this.$router.push({
-        path: '/index'
-      })
+    logout() {
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.header {
-  position: absolute;
-  background-color: #6b705c;
-  width: 100%;
-  height: 100px;
-
-  .header-container {
-    position: relative;
-    left: 1449px;
-
-    .img {
-      img {
-        margin: 11px;
-        width: 40px;
-        height: 40px;
-      }
-    }
-  }
-}
-
-.aside {
-  position: relative;
-  top: 60px;
-  height: 812px;
-  background-color: #b7b7a4;
-}
-.main{
-  position: relative;
-  top: 60px;
+.top{
+  height: 9%;
   background-color: white;
+  //position: absolute;
+  .div-1{
+    position: absolute;
+    width: 11%;
+    height: 100%;
+    left: 0px;
+    background-color: #1f2e41;
+  }
+  .div-2{
+    position: absolute;
+    width: 88%;
+    left: 11%;
+    height: 100%;
+    background-image:url("../../assets/images/logo.jpg");
+    background-repeat: no-repeat;
+
+  }
+
+}
+.content{
+  position: relative;
+  height: 91%;
+  background-color: #eff2f5;
+  .aside{
+    position: absolute;
+    left: 0px;
+    height: 100%;
+    width: 11%;
+    background-color: #1f2e41;
+  }
+  .main{
+    position: absolute;
+    right: 0px;
+    width: 89%;
+    height: 100%;
+  }
 }
 </style>

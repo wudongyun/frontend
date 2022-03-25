@@ -4,7 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/layout'
+// import Layout from '@/layout'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -32,144 +32,135 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
-    path:'/',
-    redirect: '/index/frontpage',
+    path: '/',
+    redirect: '/login',
     hidden: true
   },
   {
     name: 'index',
     path: '/index',
     hidden: true,
-    component:()=>import('@/views/index/index'),
+    component: () => import('@/views/index/index'),
     redirect: '/index/frontpage',
     children: [
       {
         name: 'frontpage',
         path: '/index/frontpage',
-        component: () => import('@/views/index/frontpage'),
+        component: () => import('@/views/index/frontpage')
       },
       {
         name: 'help',
         path: '/index/help',
-        component: () => import('@/views/index/help'),
+        component: () => import('@/views/index/help')
       },
       {
         name: 'connect',
         path: '/index/connect',
-        component: () => import('@/views/index/connect'),
+        component: () => import('@/views/index/connect')
       },
       {
         name: 'desc',
         path: '/index/desc',
-        component: () => import('@/views/index/desc'),
+        component: () => import('@/views/index/desc')
       }
     ]
   },
   {
     name: 'user',
     path: '/user',
-    component:()=>import('@/views/user/index'),
+    component: () => import('@/views/user/index'),
     redirect: '/user/contribution',
     children: [
       {
         name: 'contribution',
         path: '/user/contribution',
-        component: () => import('@/views/user/contribution'),
+        component: () => import('@/views/user/contribution')
       },
       {
         name: 'information',
         path: '/user/information',
-        component: () => import('@/views/user/information'),
+        component: () => import('@/views/user/information')
       },
       {
         name: 'table',
         path: '/user/table',
-        component: () => import('@/views/user/table'),
+        component: () => import('@/views/user/table')
       },
       {
         name: 'des',
         path: '/user/des',
-        component: () => import('@/views/user/des'),
+        component: () => import('@/views/user/des')
       },
       {
         name: 'change',
         path: '/user/change',
-        component: () => import('@/views/user/change'),
+        component: () => import('@/views/user/change')
       }
     ]
   },
   {
     name: 'review',
     path: '/review',
-    component:()=>import('@/views/review/index'),
+    component: () => import('@/views/review/index'),
     redirect: '/review/table',
     children: [
       {
         name: 'table',
         path: '/review/table',
-        component: () => import('@/views/review/table'),
+        component: () => import('@/views/review/table')
       },
       {
         name: 'information',
         path: '/review/information',
-        component: () => import('@/views/review/information'),
+        component: () => import('@/views/review/information')
       },
       {
         name: 'des',
         path: '/review/des',
-        component: () => import('@/views/review/des'),
+        component: () => import('@/views/review/des')
       },
       {
         name: 'comment',
         path: '/review/comment',
-        component: () => import('@/views/review/comment'),
+        component: () => import('@/views/review/comment')
       }
     ]
   },
   {
     name: 'admin',
     path: '/admin',
-    component:()=>import('@/views/admin/index'),
-    redirect: '/admin/thesis',
+    component: () => import('@/views/admin/index'),
+    redirect: '/admin/frontpage',
     children: [
       {
-        name: 'thesis',
-        path: '/admin/thesis',
-        component: () => import('@/views/admin/thesis'),
-      },{
-        name: 'des_thesis',
-        path: '/admin/des_thesis',
-        component: () => import('@/views/admin/des_thesis'),
+        name: 'frontpage',
+        path: '/admin/frontpage',
+        component: () => import('@/views/admin/frontpage')
       },
       {
-        name: 'des',
-        path: '/admin/des',
-        component: () => import('@/views/admin/des'),
+        name: 'record',
+        path: '/admin/record',
+        component: () => import('@/views/admin/record')
       },
       {
-        name: 'change_thesis',
-        path: '/admin/change_thesis',
-        component: () => import('@/views/admin/change_thesis'),
+        name: 'schedule',
+        path: '/admin/schedule',
+        component: () => import('@/views/admin/schedule')
       },
       {
-        name: 'change',
-        path: '/admin/change',
-        component: () => import('@/views/admin/change'),
+        name: 'consultant',
+        path: '/admin/consultant',
+        component: () => import('@/views/admin/consultant')
       },
       {
-        name: 'user',
-        path: '/admin/user',
-        component: () => import('@/views/admin/user'),
+        name: 'helper',
+        path: '/admin/helper',
+        component: () => import('@/views/admin/helper')
       },
       {
-        name: 'review',
-        path: '/admin/review',
-        component: () => import('@/views/admin/review'),
-      },
-      {
-        name: 'information',
-        path: '/admin/information',
-        component: () => import('@/views/admin/information'),
+        name: 'visitor',
+        path: '/admin/visitor',
+        component: () => import('@/views/admin/visitor')
       }
     ]
   },
@@ -179,134 +170,10 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/register',
-    component: () => import('@/views/login/register'),
-    hidden: true
-  },
-  {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: () => import('@/views/error'),
     hidden: true
   },
-
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect: '/dashboard',
-  //   children: [{
-  //     path: 'dashboard',
-  //     name: 'Dashboard',
-  //     component: () => import('@/views/dashboard/index'),
-  //     meta: { title: 'Dashboard', icon: 'dashboard' }
-  //   }]
-  // },
-
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table',
-  //   name: 'Example',
-  //   meta: { title: 'Example', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'Table',
-  //       component: () => import('@/views/table/index'),
-  //       meta: { title: 'Table', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/nested',
-  //   component: Layout,
-  //   redirect: '/nested/menu1',
-  //   name: 'Nested',
-  //   meta: {
-  //     title: 'Nested',
-  //     icon: 'nested'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'menu1',
-  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
-  //       name: 'Menu1',
-  //       meta: { title: 'Menu1' },
-  //       children: [
-  //         {
-  //           path: 'menu1-1',
-  //           component: () => import('@/views/nested/menu1/menu1-1'),
-  //           name: 'Menu1-1',
-  //           meta: { title: 'Menu1-1' }
-  //         },
-  //         {
-  //           path: 'menu1-2',
-  //           component: () => import('@/views/nested/menu1/menu1-2'),
-  //           name: 'Menu1-2',
-  //           meta: { title: 'Menu1-2' },
-  //           children: [
-  //             {
-  //               path: 'menu1-2-1',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-  //               name: 'Menu1-2-1',
-  //               meta: { title: 'Menu1-2-1' }
-  //             },
-  //             {
-  //               path: 'menu1-2-2',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-  //               name: 'Menu1-2-2',
-  //               meta: { title: 'Menu1-2-2' }
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           path: 'menu1-3',
-  //           component: () => import('@/views/nested/menu1/menu1-3'),
-  //           name: 'Menu1-3',
-  //           meta: { title: 'Menu1-3' }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: 'menu2',
-  //       component: () => import('@/views/nested/menu2/index'),
-  //       name: 'Menu2',
-  //       meta: { title: 'menu2' }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: 'external-link',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-  //       meta: { title: 'External Link', icon: 'link' }
-  //     }
-  //   ]
-  // },
-
-  // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 

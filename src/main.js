@@ -6,13 +6,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
-//引入axios
+// 引入axios
 import VueResource from 'vue-resource'
 import axios from 'axios'
 // axios.defaults.baseURL = '/api'  //自动附加在所有axios请求前面，则可以省略/api，直接写'/xxxx/xxx'。否则需要设置'/api/xxxx/xxx'
 
 // axios.defaults.baseURL='http://localhost:8080/api'
-Vue.prototype.$http =axios
+Vue.prototype.$http = axios
 Vue.prototype.$qs = qs
 
 import '@/styles/index.scss' // global css
@@ -23,7 +23,7 @@ import router from './router'
 // import '@/icons' // icon
 // import '@/permission' // permission control
 
-import store from './store/store';
+import store from './store/store'
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

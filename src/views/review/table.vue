@@ -5,9 +5,9 @@
       <el-table-column header-align="center" align="center" prop="contributor_name" label="投稿人"  width='70px'></el-table-column>
       <el-table-column header-align="center" align="center" prop="create_time" label="投稿时间"  width='100px'></el-table-column>
       <el-table-column header-align="center" align="center" prop="update_time" label="修改时间" width='100px' ></el-table-column>
-      <el-table-column header-align="center" align="center" prop="paper_title" label="文章题目"  width='220px'></el-table-column>
+      <el-table-column header-align="center" align="left" prop="paper_title" label="文章题目"  width='300px'></el-table-column>
       <el-table-column header-align="center" align="center" prop="channel" label="拟投栏目"  width='150px'></el-table-column>
-      <el-table-column header-align="center" align="center" prop="keyword" label="关键词"  width='400px'></el-table-column>
+      <el-table-column header-align="center" align="left" prop="keyword" label="关键词"  width='450px'></el-table-column>
       <el-table-column header-align="center" align="center" prop="status"  label="审核状态" :formatter="stateFormat"  width='100px'></el-table-column>
       <el-table-column  header-align="center" align="center" prop="operate" label="操作" width="100px">
         <template slot-scope="scope">
@@ -44,7 +44,7 @@ export default {
     return{
       dictTotal:0,
       dictCurrentPage:1,
-      dictPageSize:12,
+      dictPageSize:10,
       tableData: [{
         contributor_name:"王小明",
         create_time: "2021-12-26",
@@ -67,7 +67,7 @@ export default {
   methods:{
     initData(){
       this.$http
-        .get("http://localhost:8080/ProjectWeb/PaperServlet", {
+        .get("http://175.27.129.16:8080/paperplane2021/PaperServlet", {
           params:
             { method: 'list',
               name: this.$store.state.username
@@ -109,10 +109,10 @@ export default {
       } else if (row.status === 4) {
         return '审核不通过'
       } else if (row.status === 5) {
-        return '通过审核，待发表'
+        return '通过审核'
       }else if (row.status === 6) {
-        return '审核不通过，不可再投稿，无效稿件'
-      } else if(rou.status===8){
+        return '审核不通过，无效稿件'
+      } else if(row.status===8){
         return '二次提交，重新审核'
       }else {
         return '已发表'

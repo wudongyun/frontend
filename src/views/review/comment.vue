@@ -13,7 +13,7 @@
       <p>英文摘要：{{ form.abstract_eng }}</p>
       <p>拟投栏目：{{ form.channel }}</p>
       <p>关键字：{{ form.keyword }}</p>
-      <p>稿件pdf：<a href="../../assets/DNNV.pdf" download="稿件pdf.pdf" style="color: #20a0ff">点击这里下载</a></p>
+      <p>稿件pdf：<a href="../../assets/DNNV.pdf" download="2021-12-31.pdf" style="color: #20a0ff">点击这里下载</a></p>
 
 
       <el-form ref="ruleform" status-icon :model="ruleform" label-width="80px">
@@ -62,7 +62,7 @@ export default {
       console.log(this.form)
       console.log(this.ruleform)
       this.$http
-        .get("http://localhost:8080/ProjectWeb/ReviewServlet", {
+        .get("http://175.27.129.16:8080/paperplane2021/ReviewServlet", {
           params:
             { method: 'review',
               paper_id: this.form.id,

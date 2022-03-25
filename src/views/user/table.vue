@@ -1,117 +1,120 @@
 <template>
   <div class="page">
-    <el-table :data="tableData.slice((dictCurrentPage-1)*dictPageSize,dictCurrentPage*dictPageSize)" >
-      <el-table-column header-align="center" align="center" prop="id" label="编号" width='50px'></el-table-column>
-      <el-table-column header-align="center" align="center" prop="create_time" label="投稿时间"  width='120px'></el-table-column>
-      <el-table-column header-align="center" align="center" prop="update_time" label="修改时间" width='120px' ></el-table-column>
-      <el-table-column header-align="center" align="center" prop="paper_title" label="文章题目"  width='420px'></el-table-column>
-      <el-table-column  header-align="center" align="center" prop="reviewer_list" label="审稿人" width="200px"></el-table-column>
-      <el-table-column header-align="center" align="center" prop="status"  label="审核状态" :formatter="stateFormat"  width='100px'></el-table-column>
-      <el-table-column header-align="center" align="center"  label="操作" width="270px">
+    <el-table :data="tableData.slice((dictCurrentPage-1)*dictPageSize,dictCurrentPage*dictPageSize)">
+      <el-table-column header-align="center" align="center" prop="id" label="编号" width="50px" />
+      <el-table-column header-align="center" align="center" prop="create_time" label="投稿时间" width="120px" />
+      <el-table-column header-align="center" align="center" prop="update_time" label="修改时间" width="120px" />
+      <el-table-column header-align="center" align="left" prop="paper_title" label="文章题目" width="500px" />
+      <el-table-column header-align="center" align="center" prop="reviewer_list" label="审稿人" width="200px" />
+      <el-table-column header-align="center" align="center" prop="status" label="审核状态" :formatter="stateFormat" width="200px" />
+      <el-table-column header-align="center" align="center" label="操作" width="270px">
         <template slot-scope="scope">
-        <el-button
-          size="mini"
-          icon="el-icon-zoom-in"
-          @click="handleview(scope.row)">查看
-        </el-button>
-        <el-button
-          size="mini"
-          icon="el-icon-edit"
-          @click="handle(scope.row)"
-          v-if="scope.row.status===4">修改
-        </el-button>
-        <el-button
-          size="mini"
-          icon="el-icon-delete"
-          @click="handledelete(scope.row)"
-          v-if="">删除
-        </el-button>
+          <el-button
+            size="mini"
+            icon="el-icon-zoom-in"
+            @click="handleview(scope.row)"
+          >查看
+          </el-button>
+          <el-button
+            v-if="scope.row.status===4"
+            size="mini"
+            icon="el-icon-edit"
+            @click="handle(scope.row)"
+          >修改
+          </el-button>
+          <el-button
+            v-if=""
+            size="mini"
+            icon="el-icon-delete"
+            @click="handledelete(scope.row)"
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination class="fy"
-                   layout="sizes, prev, pager, next, total"
-                   :current-page.sync="dictCurrentPage"
-                   :total="dictTotal"
-                   background
-                   :page-sizes="[12]"
-                   :page-size.sync="dictPageSize"
-    >
-    </el-pagination>
+    <el-pagination
+      class="fy"
+      layout="sizes, prev, pager, next, total"
+      :current-page.sync="dictCurrentPage"
+      :total="dictTotal"
+      background
+      :page-sizes="[12]"
+      :page-size.sync="dictPageSize"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  data(){
-    return{
-      dictTotal:0,
-      dictCurrentPage:1,
-      dictPageSize:12,
+  data() {
+    return {
+      dictTotal: 0,
+      dictCurrentPage: 1,
+      dictPageSize: 10,
       tableData: [{
-        id:1,
-        create_time:'sd',
-        channel:'人工智能与模式识别',
-        contributor_name:'dfsnkafn',
-        status:4
+        id: 1,
+        create_time: 'sd',
+        channel: '人工智能与模式识别',
+        contributor_name: 'dfsnkafn',
+        status: 4
       }]
     }
   },
   mounted() {
-    this.initData();
+    this.initData()
   },
-  methods:{
-    initData(){
+  methods: {
+    initData() {
       this.$http
-        .get("http://localhost:8080/ProjectWeb/PaperServlet", {
+        .get('http://175.27.129.16:8080/paperplane2021/PaperServlet', {
           params:
             { method: 'list',
               contributor_id: this.$store.state.userid
-            }}, {emulateJSON: true})
+            }}, { emulateJSON: true })
         .then((response) => {
-          this.tableData=response.data;
-          this.dictTotal = this.tableData.length;
-        }).catch(err =>{
-        console.log(err.data)
-      });
-      this.dictTotal=this.tableData.length;
-
+          this.tableData = response.data
+          this.dictTotal = this.tableData.length
+          console.log(this.tableData)
+        }).catch(err => {
+          console.log(err.data)
+        })
+      this.dictTotal = this.tableData.length
     },
-    handleview(row){
+    handleview(row) {
       console.log(row)
       this.$router.push({
         path: '/user/des',
         // name: 'mallList',
         query: {
-          parms:row
+          parms: row
         }
       })
     },
-    handle(row){
+    handle(row) {
       this.$router.push({
         path: '/user/change',
         // name: 'mallList',
         query: {
-          parms:row
+          parms: row
         }
       })
     },
-    handledelete(row){
+    handledelete(row) {
       this.$http
-        .get("http://localhost:8080/ProjectWeb/PaperServlet", {
+        .get('http://175.27.129.16:8080/paperplane2021/PaperServlet', {
           params:
             { method: 'delete',
               id: row.id
-            }}, {emulateJSON: true})
+            }}, { emulateJSON: true })
         .then((response) => {
-          alert("删除成功！")
-        }).catch(err =>{
-        console.log(err.data)
-      });
-      this.initData();
+          alert('删除成功！')
+        }).catch(err => {
+          console.log(err.data)
+        })
+      this.initData()
     },
     stateFormat(row, column) {
-      console.log("ces")
+      console.log('ces')
       if (row.status === 1) {
         return '未上传'
       } else if (row.status === 2) {
@@ -121,12 +124,12 @@ export default {
       } else if (row.status === 4) {
         return '审核不通过'
       } else if (row.status === 5) {
-        return '通过审核，待发表'
-      }else if (row.status === 6) {
-        return '审核不通过，不可再投稿，无效稿件'
-      } else if(rou.status===8){
+        return '通过审核'
+      } else if (row.status === 6) {
+        return '审核不通过，无效稿件'
+      } else if (row.status === 8) {
         return '二次提交，重新审核'
-      }else {
+      } else {
         return '已发表'
       }
     }

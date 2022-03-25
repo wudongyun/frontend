@@ -1,42 +1,42 @@
 <template>
   <div>
-  <el-container>
-    <div class="header">
-    <el-header >
-      <el-menu
-        :default-active="this.$route.path"
-        class="menu"
-        mode="horizontal"
-        @select="handleSelect"
-        router
-        background-color="#fff"
-        text-color="#333"
-        active-text-color="#0084ff"
-      >
-        <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
-          <template slot="title">
-            <span> {{ item.navItem }}</span>
-          </template>
-        </el-menu-item>
-      </el-menu>
-    </el-header>
-    </div>
-    <div class="main">
-    <el-main>
-      <el-main class="detailed-content">
-      <router-view />
-    </el-main>
-    </el-main>
-    </div>
-  </el-container>
-  <div class="footer">
-    <p class="first">2021 © 华东师范大学</p>
-    <p>    地址：上海市华东师范大学中山北路3663号 Tel:021-00000000 传真：021-00000000 E-mail: student@stu.ecnu.edu.cn
-    </p>
-    <p>    本系统由华东师范大学所设计开发
-    </p>
+    <el-container>
+      <div class="header">
+        <el-header>
+          <el-menu
+            :default-active="this.$route.path"
+            class="menu"
+            mode="horizontal"
+            router
+            background-color="#fff"
+            text-color="#333"
+            active-text-color="#0084ff"
+            @select="handleSelect"
+          >
+            <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
+              <template slot="title">
+                <span> {{ item.navItem }}</span>
+              </template>
+            </el-menu-item>
+          </el-menu>
+        </el-header>
+      </div>
+      <div class="main">
+        <el-main>
+          <el-main class="detailed-content">
+            <router-view />
+          </el-main>
+        </el-main>
+      </div>
+    </el-container>
+    <div class="footer">
+      <p class="first">2021 © 华东师范大学</p>
+      <p>    地址：上海市华东师范大学中山北路3663号 Tel:021-00000000 传真：021-00000000 E-mail: student@stu.ecnu.edu.cn
+      </p>
+      <p>    本系统由华东师范大学所设计开发
+      </p>
 
-  </div>
+    </div>
   </div>
 </template>
 
@@ -45,11 +45,11 @@ export default {
   data() {
     return {
       navList: [
-        {name: '/index/frontpage', navItem: '首页'},
-        {name: '/login', navItem: '个人中心'},
-        {name: '/login', navItem: '后台管理'},
-        {name: '/index/help', navItem: '需要帮助'},
-        {name: '/index/connect', navItem: '联系我们'},
+        { name: '/index/frontpage', navItem: '首页' },
+        { name: '/login', navItem: '个人中心' },
+        { name: '/login', navItem: '后台管理' },
+        { name: '/index/help', navItem: '需要帮助' },
+        { name: '/index/connect', navItem: '联系我们' }
       ]
     }
   },

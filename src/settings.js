@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Vue Admin Template',
+  title: '应用心理实践服务热线',
 
   /**
    * @type {boolean} true | false

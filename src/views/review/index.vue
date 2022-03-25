@@ -81,7 +81,8 @@ export default {
 
   .header-container {
     position: relative;
-    left: 1449px;
+        left: 1600px;
+
 
     .img {
       img {
@@ -96,7 +97,7 @@ export default {
 .aside {
   position: relative;
   top: 60px;
-  height: 812px;
+  height: 900px;
   background-color: #b7b7a4;
 }
 .main{
