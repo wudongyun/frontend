@@ -11,8 +11,54 @@
       </div>
     </div>
     <div class="div-2">
-      <div class="left">咨询师</div>
-      <div class="right">督导</div>
+      <div class="left">
+        <div style="float:left;width: 30%;font-size: 17px;height: 30px;margin-top: 10px;margin-left: 10px;color: #2b2f3a">咨询师</div>
+        <div style="text-align: right;font-size: 30px;margin-top: 5px">
+          <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentpage"
+            :page-size="pagesize"
+            layout="total, prev, pager, next"
+            :total="total">
+          </el-pagination>
+        </div>
+        <div>
+            <el-row :gutter="24">
+              <el-col :span="8" v-for="(item, index) in pageTicket" :key="item" style="border:1px solid #c8cccf;">
+                <div style="height:34px;display: inline-block;width: 100%;margin-top: 10px;font-size: 18px;line-height: 34px;">
+                  <div style="display: inline-block;width: 60%;margin-left: 10px;color: grey">{{ item.trueName }}</div>
+                  <div v-if="item.available==1" style="display: inline-block;width: 30%;height:80%;background-color: #a3e0a3;text-align: center;color: white">在线</div>
+                  <div v-if="item.available==2" style="display: inline-block;width: 30%;height:80%;background-color: #c1bebe;text-align: center;color: white">下线</div>
+                </div>
+              </el-col>
+            </el-row>
+        </div>
+      </div>
+      <div class="right">
+        <div style="width: 35%;height: 100%;background-color: #404e5e;text-align: center;position: absolute;left: 0px;color: white">
+          <div style="font-size: 30px;margin-top: 60px">总督导数</div>
+          <div style="font-size: 55px;margin-top: 20px">{{all_helper}}</div>
+        </div>
+        <div style="width: 30%;height: 100%;position: absolute;left: 35%;overflow-y: auto;overflow-x: hidden ">
+          <div>
+            <el-row :gutter="24">
+              <el-col :span="24" v-for="(item, index) in ticket1" :key="item" style="border:1px solid #c8cccf;">
+                <div style="height:34px;display: inline-block;width: 100%;margin-top: 10px;font-size: 18px;line-height: 34px;">
+                  <div style="display: inline-block;width: 60%;margin-left: 10px;color: grey">{{ item.trueName }}</div>
+                  <div v-if="item.available==1" style="display: inline-block;width: 30%;height:80%;background-color: #a3e0a3;text-align: center;color: white">在线</div>
+                  <div v-if="item.available==2" style="display: inline-block;width: 30%;height:80%;background-color: #c1bebe;text-align: center;color: white">下线</div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <div style="width: 35%;height: 100%;background-color: #404e5e;position: absolute;right: 0px;text-align: center;color: white">
+          <div style="font-size: 30px;margin-top: 60px">在线督导</div>
+          <div style="font-size: 55px;margin-top: 20px">{{all_helper_online}}</div>
+        </div>
+      </div>
     </div>
     <div class="div-3">
       <div class="chart">
@@ -22,7 +68,7 @@
       <div class="table">
         <div class="table-1">
           <div class="des">
-            当月咨询数量排行
+            咨询数量排行
           </div>
           <div class="table-content">
             <el-table
@@ -50,7 +96,7 @@
         </div>
         <div class="table-2">
           <div class="des">
-            当月好评数量排行
+            好评排行
           </div>
           <div class="table-content">
             <el-table
@@ -101,14 +147,88 @@ export default {
         { seq: 1, name: 'name', number: 23 },
         { seq: 2, name: 'name', number: 23 },
         { seq: 3, name: 'name', number: 23 },
-        { seq: 4, name: 'name', number: 23 }]
+        { seq: 4, name: 'name', number: 23 }],
+      total:0,  //总数据条数
+      currentpage:1,  //当前所在页默认是第一页
+      pagesize:12,  //每页显示多少行数据 默认设置为10
+      ticket:[],  //这里是从后端获取的所有数据
+      pageTicket:[],//分页后的当前页数据
+      ticket1:[],  //这里是从后端获取的所有数据
+      pageTicket1:[],//分页后的当前页数据
+      all_helper:'',
+      all_helper_online:''
     }
   },
   mounted() {
+    this.initData()
     this.Draw()
     this.Draw2()
   },
   methods: {
+    initData(){
+      this.$http({
+        url: "/admin/getWorkerList",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+          "role": 1,
+        })
+      }).then(res => {
+        console.log(res.data.data);
+        this.total = res.data.data.length;
+        this.ticket=res.data.data
+        this.getPageInfo();
+      }).catch(err => {
+        console.log(err.data)
+      });
+      this.$http({
+        url: "/admin/getWorkerList",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+          "role": 2,
+        })
+      }).then(res => {
+        console.log(res.data.data);
+        this.all_helper = res.data.data.length;
+        this.ticket1=res.data.data
+        // this.getPageInfo();
+        var count=0;
+        for(let i=0;i<this.all_helper;i++){
+          if(this.ticket1[i].available==1){
+            count++
+          }
+        }
+        this.all_helper_online=count
+      }).catch(err => {
+        console.log(err.data)
+      });
+
+    },
+    getPageInfo(){
+      //清空pageTicket中的数据
+      this.pageTicket=[];
+      // 获取当前页的数据
+      for(let i=(this.currentpage-1)*this.pagesize;i<this.total;i++){
+        //把遍历的数据添加到pageTicket里面
+        this.pageTicket.push(this.ticket[i]);
+        //判断是否达到一页的要求
+        if(this.pageTicket.length===this.pagesize) break;
+      }
+    },
+    handleSizeChange(size){
+      //修改当前每页的数据行数
+      this.pagesize=size;
+      //数据重新分页
+      this.getPageInfo();
+    },
+    //调整当前的页码
+    handleCurrentChange(pageNumber){
+      //修改当前的页码
+      this.currentpage=pageNumber;
+      //数据重新分页
+      this.getPageInfo()
+    },
     Draw() {
       // 基于准备好的dom，初始化echarts实例
       const myChart = echarts.init(document.getElementById('myChart'))
@@ -253,6 +373,7 @@ export default {
       width: 45%;
       height: 90%;
       margin-top: 0.8%;
+      overflow: hidden
     }
     .right{
       position: absolute;

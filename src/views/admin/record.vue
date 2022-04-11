@@ -21,18 +21,37 @@
       </div>
 
     </div>
+    <el-dialog title="" :visible.sync="dialogFormVisible2">
+      <div style="font-size: 2em;margin-left: 20px;color: black">详情信息</div>
+      <div style="margin-top: 20px;margin-left: 20px;font-size: 1.5em;line-height: 2em">
+        <div style="display: inline-block;width: 50%;border-bottom: 1px solid grey">访客:    {{form_detail.customerTrueName}}</div>
+        <div style="display: inline-block;width: 50%;border-bottom: 1px solid grey">咨询师: {{form_detail.consultantTrueName}}</div>
+        <div style="display: inline-block;width: 50%;border-bottom: 1px solid grey">求助督导: {{form_detail.helperTrueName}}</div>
+        <div style="display: inline-block;width: 50%;border-bottom: 1px solid grey">评分: {{form_detail.level}}</div>
+        <div style="display: inline-block;width: 50%;border-bottom: 1px solid grey">评语: {{form_detail.comment}}</div>
+        <div style="display: inline-block;width: 50%;border-bottom: 1px solid grey">日期: {{form_detail.date}}</div>
+        <div style="display: inline-block;width: 50%;border-bottom: 1px solid grey">开始时间: {{form_detail.startTime}}</div>
+        <div style="display: inline-block;width: 50%;border-bottom: 1px solid grey">结束时间: {{form_detail.endTime}}</div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogFormVisible2=false">确 定</el-button>
+      </div>
+    </el-dialog>
     <div class="table">
       <el-table :data="tableData.slice((dictCurrentPage-1)*dictPageSize,dictCurrentPage*dictPageSize)" style="overflow:auto;width:100%;" height="90%" :header-cell-style="headClass">
-        <el-table-column prop="name" label="" fixed />
-        <el-table-column prop="gender" label="性别" />
-        <el-table-column prop="username" label="用户名" />
-        <el-table-column prop="phone" label="电话" :formatter="stateFormat" />
+        <el-table-column prop="customerTrueName" label="访客" fixed />
+        <el-table-column prop="consultantTrueName" label="咨询师" />
+        <el-table-column prop="date" label="日期" />
+        <el-table-column prop="startTime" label="开始时间" />
+        <el-table-column prop="endTime" label="结束时间" />
+        <el-table-column prop="helperTrueName" label="求助督导" />
+        <el-table-column prop="level" label="平均咨询等级" :formatter="stateFormat" width="120px"/>
         <el-table-column header-align="center" align="center" prop="operate" label="操作" width="200px" fixed="right">
           <template slot-scope="scope">
             <el-button
               size="small"
               style="background-color: #b1c0d0"
-              @click="ban(scope.row)"
+              @click="detail(scope.row)"
             >查看详情
             </el-button>
             <el-button
@@ -61,370 +80,23 @@
 export default {
   data() {
     return {
+      dialogFormVisible2:false,
       dictTotal: 0,
       dictCurrentPage: 1,
       dictPageSize: 10,
       name: '',
       time: '',
-      tableData: [{
-        id: '1',
-        date: '2016-05-03',
-        username: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 0,
-        sex: '1',
-        role: 1
-      }, {
-        id: '2',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 1,
-        sex: '0'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }]
+      tableData: [],
+      form_detail: {
+        comment: '',
+        consultantTrueName:'',
+        customerTrueName:'',
+        date:'',
+        endTime:'',
+        helperTrueName:'',
+        level:'',
+        startTime:''
+      }
     }
   },
   mounted() {
@@ -432,19 +104,21 @@ export default {
   },
   methods: {
     initData() {
-      this.dictTotal = this.tableData.length
-
-      this.$http
-        .get('http://175.27.129.16:8080/paperplane2021/UserServlet', {
-          params:
-            { method: 'list',
-              actor: 1
-            }}, { emulateJSON: true })
-        .then((response) => {
-          this.tableData = response.data
-        }).catch(err => {
-          console.log(err.data)
+      // this.dictTotal = this.tableData.length
+      this.$http({
+        url: "/record/getRecordList",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+          // "role": 0,
         })
+      }).then(res => {
+        console.log(res.data.data);
+        this.dictTotal = res.data.data.length;
+        this.tableData=res.data.data
+      }).catch(err => {
+        console.log(err.data)
+      });
     },
     ban(row) {
       // this.$router.push({
@@ -456,14 +130,23 @@ export default {
       // })
     },
     stateFormat(row, column) {
-      // console.log('ces')
-      // if (row.actor === 1) {
-      //   return '投稿人'
-      // } else if (row.actor === 2) {
-      //   return '审稿人'
-      // } else {
-      //   return '管理员'
-      // }
+      if (row.level === 0) {
+        return ''
+      } else if (row.level === 1) {
+        return '⭐'
+      }else if (row.level === 2) {
+        return '⭐⭐'
+      } else if (row.level === 3) {
+        return '⭐⭐⭐'
+      }else if (row.level === 4) {
+        return '⭐⭐⭐⭐'
+      } else {
+        return '⭐⭐⭐⭐⭐'
+      }
+    },
+    detail(row) {
+      this.dialogFormVisible2=true
+      this.form_detail=row
     },
     // 设置表头颜色
     headClass() {
@@ -472,6 +155,21 @@ export default {
     // 实时监听查询内容，更新列表
     seachRecord() {
       console.log('检测到变化' + this.name + this.time)
+      this.$http({
+        url: "/record/getRecordList",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+          "customerTrueName": this.name,
+          // "role":0
+        })
+      }).then(res => {
+        console.log(res.data.data);
+        this.dictTotal = res.data.data.length;
+        this.tableData=res.data.data
+      }).catch(err => {
+        console.log(err.data)
+      });
     }
 
   }

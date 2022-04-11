@@ -10,7 +10,7 @@ const state = {
 };
 
 const getters = {
-  getPlatform(state) {
+  getUserName(state) {
     return state.username;
   }
 };

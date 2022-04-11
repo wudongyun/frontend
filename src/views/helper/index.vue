@@ -5,7 +5,7 @@
         <div style="display: inline-block;width: 30%;margin-top: 20px;padding-left:10px;">
           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
         </div>
-        <div style="width: 70%;display: inline-block;line-height: 10px;color: white;padding-left: 10px">欢迎你！<br></br>机构管理员</div>
+        <div style="width: 70%;display: inline-block;line-height: 10px;color: white;padding-left: 10px">欢迎你！<br></br>督导</div>
       </div>
       <div class="div-2" >
       </div>
@@ -20,46 +20,22 @@
           text-color="#fff"
           align="left"
         >
-          <router-link to="/admin/frontpage">
+          <router-link to="/helper/frontpage">
             <el-menu-item index="1">
               <i class="el-icon-s-home" />
               <span style="margin-left: 15px">首页</span>
             </el-menu-item>
           </router-link>
-          <router-link to="/admin/record">
+          <router-link to="/helper/record">
             <el-menu-item index="2">
               <i class="el-icon-s-management" />
-              <span style="margin-left: 15px">咨询记录</span>
-            </el-menu-item>
-          </router-link>
-          <router-link to="/admin/schedule">
-            <el-menu-item index="3">
-              <i class="el-icon-date" />
-              <span style="margin-left: 15px">排班表</span>
-            </el-menu-item>
-          </router-link>
-          <router-link to="/admin/consultant">
-            <el-menu-item index="4">
-              <i class="el-icon-s-custom" />
-              <span style="margin-left: 15px">咨询师管理</span>
-            </el-menu-item>
-          </router-link>
-          <router-link to="/admin/helper">
-            <el-menu-item index="5">
-              <i class="el-icon-s-check" />
-              <span style="margin-left: 15px">督导管理</span>
-            </el-menu-item>
-          </router-link>
-          <router-link to="/admin/visitor">
-            <el-menu-item index="6">
-              <i class="el-icon-place" />
-              <span style="margin-left: 15px">访客管理</span>
+              <span style="margin-left: 15px">求助记录</span>
             </el-menu-item>
           </router-link>
           <router-link to="/login">
-            <el-menu-item index="7" @click="logout">
+            <el-menu-item index="3" @click="logout">
               <i class="el-icon-turn-off" />
-              <span style="margin-left: 15px">退出</span>
+              <span style="margin-left: 15px" >退出</span>
             </el-menu-item>
           </router-link>
         </el-menu>
@@ -75,7 +51,11 @@
 export default {
   data() {
     return {
-      navList: ''
+      navList: [
+        {name: '/user/contribution', navItem: '投稿'},
+        {name: '/user/table', navItem: '历史稿件'},
+        {name: '/user/information', navItem: '个人信息'}
+      ]
     }
   },
   methods: {
@@ -139,9 +119,7 @@ export default {
     height: 100%;
     background-image:url("../../assets/images/logo.jpg");
     background-repeat: no-repeat;
-
   }
-
 }
 .content{
   position: relative;

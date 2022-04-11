@@ -37,92 +37,38 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    name: 'index',
-    path: '/index',
-    hidden: true,
-    component: () => import('@/views/index/index'),
-    redirect: '/index/frontpage',
+    name: 'consultant',
+    path: '/consultant',
+    component: () => import('@/views/consultant/index'),
+    redirect: '/consultant/frontpage',
     children: [
       {
         name: 'frontpage',
-        path: '/index/frontpage',
-        component: () => import('@/views/index/frontpage')
+        path: '/consultant/frontpage',
+        component: () => import('@/views/consultant/frontpage')
       },
       {
-        name: 'help',
-        path: '/index/help',
-        component: () => import('@/views/index/help')
-      },
-      {
-        name: 'connect',
-        path: '/index/connect',
-        component: () => import('@/views/index/connect')
-      },
-      {
-        name: 'desc',
-        path: '/index/desc',
-        component: () => import('@/views/index/desc')
+        name: 'record',
+        path: '/consultant/record',
+        component: () => import('@/views/consultant/record')
       }
     ]
   },
   {
-    name: 'user',
-    path: '/user',
-    component: () => import('@/views/user/index'),
-    redirect: '/user/contribution',
+    name: 'helper',
+    path: '/helper',
+    component: () => import('@/views/helper/index'),
+    redirect: '/helper/frontpage',
     children: [
       {
-        name: 'contribution',
-        path: '/user/contribution',
-        component: () => import('@/views/user/contribution')
+        name: 'frontpage',
+        path: '/helper/frontpage',
+        component: () => import('@/views/helper/frontpage')
       },
       {
-        name: 'information',
-        path: '/user/information',
-        component: () => import('@/views/user/information')
-      },
-      {
-        name: 'table',
-        path: '/user/table',
-        component: () => import('@/views/user/table')
-      },
-      {
-        name: 'des',
-        path: '/user/des',
-        component: () => import('@/views/user/des')
-      },
-      {
-        name: 'change',
-        path: '/user/change',
-        component: () => import('@/views/user/change')
-      }
-    ]
-  },
-  {
-    name: 'review',
-    path: '/review',
-    component: () => import('@/views/review/index'),
-    redirect: '/review/table',
-    children: [
-      {
-        name: 'table',
-        path: '/review/table',
-        component: () => import('@/views/review/table')
-      },
-      {
-        name: 'information',
-        path: '/review/information',
-        component: () => import('@/views/review/information')
-      },
-      {
-        name: 'des',
-        path: '/review/des',
-        component: () => import('@/views/review/des')
-      },
-      {
-        name: 'comment',
-        path: '/review/comment',
-        component: () => import('@/views/review/comment')
+        name: 'record',
+        path: '/helper/record',
+        component: () => import('@/views/helper/record')
       }
     ]
   },
@@ -167,6 +113,11 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/login'),
+    hidden: true
+  },
+  {
+    path: '/register',
+    component: () => import('@/views/login/register'),
     hidden: true
   },
   {

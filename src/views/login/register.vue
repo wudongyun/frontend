@@ -3,32 +3,34 @@
     <div class="register">
       <el-form ref="ruleForm" :model="ruleForm" status-icon :rules="rules" label-width="100px" class="register-form">
         <div class="title-container">
-          <p class="title">登录</p>
+          <p class="title">注 册</p>
         </div>
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="ruleForm.username" type="text" autocomplete="off" />
+          <el-input v-model="ruleForm.username" type="text" />
         </el-form-item>
-        <el-form-item label="密 码" prop="password">
-          <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="ruleForm.password" type="password" />
+        </el-form-item>
+        <el-form-item label="确定密码" prop="checkPass">
+          <el-input v-model="ruleForm.checkPass" type="password" />
         </el-form-item>
         <el-form-item class="button">
           <el-button style="margin-left: 30px;background-color: #6b705c" type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button style="margin-left: 80px;background-color: #b7b7a4" @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
-      <div class="linked">
-        <router-link to="/register"> 还没有账号？注册一个</router-link>
-      </div>
     </div>
     <Foot />
   </div>
 </template>
 
 <script>
+import Indexbg from '@/components/loginpage/bg'
 import Foot from '@/components/loginpage/footer'
 
 export default {
   components: {
+    Indexbg,
     Foot
   },
   data() {
@@ -43,12 +45,25 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'))
       } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass')
+        }
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
         callback()
       }
     }
     return {
       ruleForm: {
         username: '',
+        checkPass: '',
         password: ''
       },
       rules: {
@@ -57,60 +72,40 @@ export default {
         ],
         password: [
           { validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
         ]
       }
     }
+  },
+  watch: {
+
   },
   methods: {
     submitForm(formName) {
       console.log(this.ruleForm)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$http({
-            url: "/worker/login",
-            method: "get",
-            crossdomain: true,
-            params: {
-              username: this.ruleForm.username,
-              password: this.ruleForm.password
-            }
-          }).then(res => {
-            console.log(res.data);
-            if(res.data.msg==="请求成功")
-            {
-              alert('登录成功!')
-              this.$store.commit('setUsername', res.data.data.username);
-              this.$store.commit('setUserID', res.data.data.id);
-              var temp=res.data.data
-              temp.available=1
-              console.log(temp)
-              this.$http({
-                url: "/admin/updateWorker",
-                method: "post",
-                crossdomain: true,
-                headers: {'Content-Type': 'application/json'},
-                body:JSON.stringify(temp)
-              }).then(res => {
-                console.log(res);
-              }).catch(err => {
-                console.log(err.data)
-              });
-              if(res.data.data.role==3) {
-                this.$router.replace('/admin')
-              }else if(res.data.data.role==2) {
-                this.$router.replace('/helper')
-              }else if(res.data.data.role==1) {
-                this.$router.replace('/consultant')
-              }
-            }
-            else {
-              alert("用户名密码错误")
-            }
-          }).catch(err => {
-                console.log(err.data)
-              });
+          console.log(this.ruleForm)
+          // alert('登录成功!');
+          this.$http
+            .get('/worker/register', { params:
+                {
+                  username: this.ruleForm.username,
+                  password: this.ruleForm.password,
+                  role: 2
+                }}, { emulateJSON: true })
+            .then((response) => {
+              console.log(response.data)
+              this.$router.push({
+                path: '/login'
+              })
+            }).catch(err => {
+              console.log(err.data)
+            })
         } else {
-          console.log('登录失败，请输入正确的用户名和密码')
+          alert('注册失败')
           return false
         }
       })
@@ -134,7 +129,7 @@ export default {
   .register{
     background-color: rgb(107, 112, 92,0.4);
     width: 30%;
-    margin: 250px auto;
+    margin: 200px auto;
     height: 40%;
     .register-form{
       margin-right: 40px;
@@ -150,16 +145,7 @@ export default {
         }
       }
     }
-    .linked{
-      //text-align: center;
-      position: relative;
-      top: 20px;
-      left: 45px;
-      height: 40px;
-      width: 100%;
-      margin: 0 auto;
-      color: white;
-    }
   }
+;
 }
 </style>

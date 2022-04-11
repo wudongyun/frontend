@@ -9,9 +9,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入axios
 import VueResource from 'vue-resource'
 import axios from 'axios'
-// axios.defaults.baseURL = '/api'  //自动附加在所有axios请求前面，则可以省略/api，直接写'/xxxx/xxx'。否则需要设置'/api/xxxx/xxx'
-
-// axios.defaults.baseURL='http://localhost:8080/api'
 Vue.prototype.$http = axios
 Vue.prototype.$qs = qs
 
@@ -43,6 +40,22 @@ import store from './store/store'
 Vue.use(ElementUI)
 Vue.use(VueResource)
 Vue.config.productionTip = false
+
+// 刷新保存状态
+if (sessionStorage.getItem('store')) {
+  store.replaceState(
+    Object.assign({},
+      store.state,
+      JSON.parse(sessionStorage.getItem('store'))
+    )
+  )
+  sessionStorage.removeItem('store')
+}
+
+// 监听，在页面刷新时将vuex里的信息保存到sessionStorage里
+window.addEventListener('beforeunload', () => {
+  sessionStorage.setItem('store', JSON.stringify(store.state))
+})
 
 new Vue({
   el: '#app',

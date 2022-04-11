@@ -8,17 +8,27 @@
     <div class="table">
       <el-table :data="tableData.slice((dictCurrentPage-1)*dictPageSize,dictCurrentPage*dictPageSize)" style="overflow:auto;width:100%;" height="90%" :header-cell-style="headClass">
         <!--      <el-table-column prop="id" label="编号" width="100px" />-->
-        <el-table-column prop="name" label="姓名" fixed />
-        <el-table-column prop="gender" label="性别" />
-        <el-table-column prop="username" label="用户名" />
-        <el-table-column prop="phone" label="电话" :formatter="stateFormat" />
+        <el-table-column prop="trueName" label="姓名" width="70px" fixed />
+        <el-table-column prop="gender" label="性别" width="50px"/>
+        <el-table-column prop="registerTime" label="注册时间" width="200px" align="center"/>
+        <el-table-column prop="phone" label="手机号码" width="200px"/>
+        <el-table-column prop="emergencyName" label="紧急联系人" width="220px"/>
+        <el-table-column prop="emergencyNumber" label="紧急联系人电话" align="center"/>
         <el-table-column header-align="center" align="center" prop="operate" label="操作" width="100px" fixed="right">
           <template slot-scope="scope">
             <el-button
+              v-if="scope.row.available==1||scope.row.available==''"
               size="medium"
               style="background-color: #b1c0d0"
               @click="ban(scope.row)"
             >禁用
+            </el-button>
+            <el-button
+              v-if="scope.row.available==2"
+              size="medium"
+              style="background-color: #b1c0d0"
+              @click="ban(scope.row)"
+            >启用
             </el-button>
           </template>
         </el-table-column>
@@ -43,365 +53,7 @@ export default {
       dictTotal: 0,
       dictCurrentPage: 1,
       dictPageSize: 10,
-      tableData: [{
-        id: '1',
-        date: '2016-05-03',
-        username: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 0,
-        sex: '1',
-        role: 1
-      }, {
-        id: '2',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 1,
-        sex: '0'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }, {
-        id: '3',
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        IsAudit: 10,
-        sex: '-1'
-      }]
+      tableData: []
     }
   },
   mounted() {
@@ -409,28 +61,57 @@ export default {
   },
   methods: {
     initData() {
-      this.dictTotal = this.tableData.length
+      // this.dictTotal = this.tableData.length
+      this.$http({
+        url: "/customer/getCustomerList",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
 
-      this.$http
-        .get('http://175.27.129.16:8080/paperplane2021/UserServlet', {
-          params:
-            { method: 'list',
-              actor: 1
-            }}, { emulateJSON: true })
-        .then((response) => {
-          this.tableData = response.data
-        }).catch(err => {
-          console.log(err.data)
         })
+      }).then(res => {
+        // console.log(res.data.data);
+        this.dictTotal = res.data.data.length;
+        this.tableData=res.data.data
+      }).catch(err => {
+        console.log(err.data)
+      });
     },
     ban(row) {
-      // this.$router.push({
-      //   path: '/admin/des',
-      //   // name: 'mallList',
-      //   query: {
-      //     parms: row
-      //   }
-      // })
+      var formName=row
+      if(formName.available==1||formName.available=='') {
+        formName.available = 2
+        console.log(formName)
+        console.log(formName)
+        this.$http({
+          url: "/customer/updateCustomer",
+          method: "post",
+          crossdomain: true,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formName)
+        }).then(res => {
+          alert("禁用成功")
+          this.initData();
+        }).catch(err => {
+          console.log(err.data)
+        });
+      }else if(formName.available==2){
+        formName.available = 1
+        console.log(formName)
+        console.log(formName)
+        this.$http({
+          url: "/customer/updateCustomer",
+          method: "post",
+          crossdomain: true,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formName)
+        }).then(res => {
+          alert("启用成功")
+          this.initData();
+        }).catch(err => {
+          console.log(err.data)
+        });
+      }
     },
     stateFormat(row, column) {
       // console.log('ces')
@@ -450,6 +131,20 @@ export default {
     onChange(e) {
       const { value } = e.target
       console.log('检测到变化' + value)
+      this.$http({
+        url: "/customer/getCustomerList",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+          "trueName": value,
+        })
+      }).then(res => {
+        console.log(res.data.data);
+        this.dictTotal = res.data.data.length;
+        this.tableData=res.data.data
+      }).catch(err => {
+        console.log(err.data)
+      });
     }
 
   }
