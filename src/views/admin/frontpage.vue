@@ -134,8 +134,8 @@ import * as echarts from 'echarts'
 export default {
   data() {
     return {
-      consultant_number: '35',
-      consultant_time: '60:30:23',
+      consultant_number: '',
+      consultant_time: '',
       consultant_day_data: [5, 30, 24, 8, 13, 14, 20, 4, 3, 2, 5, 6, 23, 12, 31, 2, 5, 2, 1, 3, 5, 12],
       consultant_week_data_y: [5, 30, 24, 8, 13, 14, 20],
       consultant_week_data_x: [5, 30, 24, 8, 13, 14, 20],
@@ -220,6 +220,20 @@ export default {
         console.log("sa")
         console.log(res.data.data);
         this.tableConsultantNumberData=res.data.data
+      }).catch(err => {
+        console.log(err.data)
+      });
+      this.$http({
+        url: "/record/getTodayRecordInfo",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+        })
+      }).then(res => {
+        console.log("sa")
+        console.log(res.data.data);
+        this.consultant_number=res.data.data.number
+        this.consultant_time=res.data.data.totalTime
       }).catch(err => {
         console.log(err.data)
       });
