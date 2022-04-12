@@ -52,8 +52,11 @@
                 </el-form-item>
                 <el-form-item label="" prop="qualification"><div style="text-align: left">督导资质</div>
                   <el-select v-model="form_add.qualification" style="width: 300px" placeholder="请选择督导资质">
-                    <el-option label="区域一" value="shanghai" />
-                    <el-option label="区域二" value="beijing" />
+                    <el-option label="资质A" value="A" />
+                    <el-option label="资质B" value="B" />
+                    <el-option label="资质C" value="C" />
+                    <el-option label="资质D" value="D" />
+                    <el-option label="资质E" value="E" />
                   </el-select>
                 </el-form-item>
                 <el-form-item label="" prop="qualificationId"><div style="text-align: left">资质编号</div>
@@ -147,11 +150,11 @@
     <div class="table">
       <el-table :data="tableData.slice((dictCurrentPage-1)*dictPageSize,dictCurrentPage*dictPageSize)" style="overflow:auto;width:100%;" height="90%" :header-cell-style="headClass">
         <!--      <el-table-column prop="id" label="编号" width="100px" />-->
-        <el-table-column prop="trueName" label="姓名"  width="70px" fixed />
+        <el-table-column prop="trueName" label="姓名"  width="150px" fixed />
         <el-table-column prop="gender" label="性别" width="50px" />
         <el-table-column prop="bindID" label="绑定咨询师" align="center"/>
-        <el-table-column prop="number" label="总督导次数"  width="90px"/>
-        <el-table-column prop="time" label="总督导时间" width="100px"/>
+        <el-table-column prop="workingTimes" label="总咨询数" width="120px" align="center"/>
+        <el-table-column prop="totalTime" label="咨询时长" width="100px"/>
         <el-table-column prop="schedule" label="周值班安排"  align="center"/>
         <el-table-column header-align="center" align="center" prop="operate" label="操作" fixed="right" width="250px">
           <template slot-scope="scope">
@@ -354,7 +357,6 @@ export default {
         idNumber:'',
         phone:'',
         email:'',
-        consultant:'',
         username:'',
         password:'',
         work:'',
@@ -367,7 +369,9 @@ export default {
         state:'',
         level:'',
         schedule:'',
-        role:''
+        role:'',
+        workingTimes:'',
+        totalTime:''
       },
       form_schedule: {
         trueName: '',
@@ -376,7 +380,6 @@ export default {
         idNumber:'',
         phone:'',
         email:'',
-        consultant:'',
         username:'',
         password:'',
         work:'',
@@ -389,7 +392,9 @@ export default {
         state:'',
         level:'',
         schedule:'',
-        role:''
+        role:'',
+        workingTimes:'',
+        totalTime:''
       },
       schedule_week:[],
       weeks:['周一','周二','周三','周四','周五','周六','周日'],
@@ -494,7 +499,7 @@ export default {
           method: "post",
           crossdomain: true,
           body:JSON.stringify({
-            "role":1
+            "role":2
           })
         })
         .then((response) => {
@@ -516,7 +521,7 @@ export default {
             headers: {'Content-Type': 'application/json'},
             body:JSON.stringify({
               "username": this.form_add.username,
-              "role": 1,
+              "role": 2,
               "trueName": this.form_add.true_name,
               "gender":this.form_add.gender,
               "age":this.form_add.age,
@@ -528,7 +533,8 @@ export default {
               "work":this.form_add.work,
               "title":this.form_add.title,
               "qualification":this.form_add.qualification,
-              "qualificationId":this.form_add.qualificationId
+              "qualificationId":this.form_add.qualificationId,
+              "available":2
             })
           }).then(res => {
             console.log(res);
@@ -572,7 +578,9 @@ export default {
               "id":this.form_change.id,
               "state":this.form_change.state,
               "level":this.form_change.level,
-              "schedule":this.form_change.schedule
+              "schedule":this.form_change.schedule,
+              "workingTimes":this.form_change.workingTimes,
+              "totalTime":this.form_change.totalTime
             })
           }).then(res => {
             console.log(res);
@@ -644,19 +652,19 @@ export default {
               "idNumber":this.form_schedule.idNumber,
               "phone":this.form_schedule.phone,
               "email":this.form_schedule.email,
-              // "consultant":this.form_add.consultant,
               "password":this.form_schedule.password,
               "work":this.form_schedule.work,
               "title":this.form_schedule.title,
               "qualification":this.form_schedule.qualification,
               "qualificationId":this.form_schedule.qualificationId,
-              // "consultant":this.form_change.consultant,
               "bindID":this.form_schedule.bindID,
               "available":this.form_schedule.available,
               "id":this.form_schedule.id,
               "state":this.form_schedule.state,
               "level":this.form_schedule.level,
-              "schedule":this.schedule_week.toString(",")
+              "schedule":this.schedule_week.toString(","),
+              "workingTimes":this.form_schedule.workingTimes,
+              "totalTime":this.form_schedule.totalTime
             })
           }).then(res => {
             this.dialogFormVisible2=false
@@ -717,7 +725,7 @@ export default {
         crossdomain: true,
         body:JSON.stringify({
           "trueName": value,
-          "role":1
+          "role":2
         })
       }).then(res => {
         console.log(res.data.data);
@@ -743,7 +751,7 @@ export default {
         method: "post",
         crossdomain: true,
         body:JSON.stringify({
-          "role": 0,
+          "role": 1,
         })
       }).then(res => {
         console.log("c")

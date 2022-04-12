@@ -80,11 +80,12 @@
               :show-header="false"
             >
               <el-table-column
-                prop="seq"
+                prop="rank"
                 width="30px"
-              />
+              >
+              </el-table-column>
               <el-table-column
-                prop="name"
+                prop="consultantTrueName"
                 width="190px"
               />
               <el-table-column
@@ -108,16 +109,17 @@
               :show-header="false"
             >
               <el-table-column
-                prop="seq"
+                prop="rank"
                 width="30px"
               />
               <el-table-column
-                prop="name"
-                width="190px"
+                prop="consultantTrueName"
+                width="110px"
               />
               <el-table-column
-                prop="number"
-                width=""
+                prop="grade"
+                width="200px"
+                :formatter="stateFormat"
               />
             </el-table>
           </div>
@@ -137,17 +139,8 @@ export default {
       consultant_day_data: [5, 30, 24, 8, 13, 14, 20, 4, 3, 2, 5, 6, 23, 12, 31, 2, 5, 2, 1, 3, 5, 12],
       consultant_week_data_y: [5, 30, 24, 8, 13, 14, 20],
       consultant_week_data_x: [5, 30, 24, 8, 13, 14, 20],
-      tableConsultantNumberData: [
-        { seq: 1, name: 'name', number: 23 },
-        { seq: 2, name: 'name', number: 23 },
-        { seq: 3, name: 'name', number: 23 },
-        { seq: 4, name: 'name', number: 23 }
-      ],
-      tableGoodNumberData: [
-        { seq: 1, name: 'name', number: 23 },
-        { seq: 2, name: 'name', number: 23 },
-        { seq: 3, name: 'name', number: 23 },
-        { seq: 4, name: 'name', number: 23 }],
+      tableConsultantNumberData: [],
+      tableGoodNumberData: [],
       total:0,  //总数据条数
       currentpage:1,  //当前所在页默认是第一页
       pagesize:12,  //每页显示多少行数据 默认设置为10
@@ -203,6 +196,33 @@ export default {
       }).catch(err => {
         console.log(err.data)
       });
+      this.$http({
+        url: "/admin/getTopGrade",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+
+        })
+      }).then(res => {
+        console.log(res.data.data);
+        this.tableGoodNumberData=res.data.data
+      }).catch(err => {
+        console.log(err.data)
+      });
+      this.$http({
+        url: "/admin/getTopNumber",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+
+        })
+      }).then(res => {
+        console.log("sa")
+        console.log(res.data.data);
+        this.tableConsultantNumberData=res.data.data
+      }).catch(err => {
+        console.log(err.data)
+      });
 
     },
     getPageInfo(){
@@ -228,6 +248,21 @@ export default {
       this.currentpage=pageNumber;
       //数据重新分页
       this.getPageInfo()
+    },
+    stateFormat(row, column) {
+      if (row.grade == 0) {
+        return ''
+      } else if (row.grade < 1||row.grade==1) {
+        return '⭐'
+      }else if (row.grade < 2||row.grade==2) {
+        return '⭐⭐'
+      } else if (row.grade < 3||row.grade==3) {
+        return '⭐⭐⭐'
+      }else if (row.grade < 4||row.grade==4) {
+        return '⭐⭐⭐⭐'
+      } else if(row.grade<5||row.grade==5){
+        return '⭐⭐⭐⭐⭐'
+      }
     },
     Draw() {
       // 基于准备好的dom，初始化echarts实例

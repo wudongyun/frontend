@@ -6,6 +6,7 @@ Vue.use(Vuex);
 const state = {
   username: '',
   userid: '',
+  schedule: '',
 
 };
 
@@ -21,6 +22,9 @@ const mutations = {
   },
   setUserID(state, value) {
     state.userid=value
+  },
+  setSchedule(state, value) {
+    state.schedule=value
   }
 };
 const actions = {

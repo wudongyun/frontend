@@ -81,8 +81,10 @@ export default {
               alert('登录成功!')
               this.$store.commit('setUsername', res.data.data.username);
               this.$store.commit('setUserID', res.data.data.id);
+              this.$store.commit('setSchedule', res.data.data.schedule);
               var temp=res.data.data
               temp.available=1
+              // console.log(res.data.data)
               console.log(temp)
               this.$http({
                 url: "/admin/updateWorker",

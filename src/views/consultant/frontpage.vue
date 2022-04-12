@@ -18,11 +18,11 @@
             </div>
           </div>
           <div style="width: 25%;height: 49%;position: absolute;left: 30%;text-align: center;color: grey;background-color: white">
-            <div style="margin-top: 60px">今日咨询数<div style="font-size: 3em;margin-top: 20px;color: #445974;">{{ this.consultant_number }}</div>
+            <div style="margin-top: 60px">总咨询数<div style="font-size: 3em;margin-top: 20px;color: #445974;">{{ information.workingTimes }}</div>
             </div>
           </div>
           <div style="width: 45%;height: 49%;position: absolute;right: 0;text-align: center;color: grey;background-color: white">
-            <div style="margin-top: 60px">今日咨询时长<div style="font-size: 3em;margin-top: 20px;color: #445974;border-left: 1px solid grey">{{ this.consultant_time }}</div>
+            <div style="margin-top: 60px">总咨询时长<div style="font-size: 3em;margin-top: 20px;color: #445974;border-left: 1px solid grey">{{ information.totalTime }}</div>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@
               </el-row>
             </div>
           </div>
-          <div style="width: 30%;height: 50%;background-color: #404e5e;position: absolute;right: 0px;text-align: center;color: white;padding-top: 8%">
+          <div style="width: 30%;height: 50%;background-color: #404e5e;position: absolute;right: 0px;text-align: center;color: white;padding-top: 10%">
             <div style="font-size: 20px;">在线咨询师</div>
             <div style="font-size: 55px;margin-top: 20px">{{all_consultant_online}}</div>
           </div>
@@ -65,8 +65,11 @@
           <template slot="dateCell" slot-scope="{date, data}">
             <div>
               <p style="text-align: left;margin: 0px">{{ data.day.split('-').slice(2).join('-') }}</p>
-              <p style="font-size: 10px;margin: 0px;line-height: 20px">
-                {{my_date_consultant(data.day)}}<br>
+              <p v-if="my_day(data.day)=='班'" style="font-size: 10px;margin-left: 20px;line-height: 20px;color: red">
+                班<br>
+              </p>
+              <p v-if="my_day(data.day)=='休'" style="font-size: 10px;margin-left: 20px;line-height: 20px;color: #6363ea">
+                休<br>
               </p>
             </div>
           </template>
@@ -74,6 +77,20 @@
       </div>
     </div>
     <div class="div-2">
+      <div style="border-left: 1px solid grey">
+        <div style="position: absolute;left: 0px;margin-left: 15px;margin-top: 10px">咨询记录</div>
+        <div style="right: 0px;position: absolute;margin-right: 15px;margin-top: 10px;color: #0086b3;cursor: pointer" @click="goDetail">查看更多</div>
+      </div>
+      <div class="table" style="position: absolute;margin-top: 30px;width: 100%;height: 90%">
+        <el-table :data="tableData.slice((dictCurrentPage-1)*dictPageSize,dictCurrentPage*dictPageSize)" style="overflow:auto;width:100%;" height="90%" :header-cell-style="headClass">
+          <el-table-column prop="customerTrueName" label="访客" fixed />
+          <el-table-column prop="date" label="日期" />
+          <el-table-column prop="startTime" label="开始时间" />
+          <el-table-column prop="endTime" label="结束时间" />
+          <el-table-column prop="helperTrueName" label="求助督导" />
+          <el-table-column prop="level" label="平均咨询等级" :formatter="stateFormat"/>
+        </el-table>
+      </div>
     </div>
   </div>
 </template>
@@ -83,9 +100,7 @@ import * as echarts from 'echarts'
 export default {
   data() {
     return {
-      information:{
-
-      },
+      information:{},
       value: new Date(),
       isToday:false,
       all_consultant_online:'',
@@ -96,6 +111,10 @@ export default {
       pagesize:12,  //每页显示多少行数据 默认设置为10
       ticket:[],  //这里是从后端获取的所有数据
       pageTicket:[],//分页后的当前页数据
+      tableData: [],
+      dictTotal: 0,
+      dictCurrentPage: 1,
+      dictPageSize: 5,
     }
   },
   mounted() {
@@ -115,93 +134,28 @@ export default {
           "id": this.$store.state.userid,
         })
       }).then(res => {
+        console.log("ces")
         console.log(res.data.data);
         this.information=res.data.data[0]
       }).catch(err => {
         console.log(err.data)
       });
-    },
-    my_date_consultant(v) {
-      var week=new Date(v).getDay();
-      var weekString=''
-      switch (week){
-        case 0:
-          weekString="周日"
-          break
-        case 1:
-          weekString="周一"
-          break
-        case 2:
-          weekString="周二"
-          break
-        case 3:
-          weekString="周三"
-          break
-        case 4:
-          weekString="周四"
-          break
-        case 5:
-          weekString="周五"
-          break
-        case 6:
-          weekString="周六"
-          break
-        default:
-          break
-      }
-      // let len = this.scheduleData.length
-      // let res = ""
-      // for(let i=0; i<len; i++){
-      //   if(this.scheduleData[i].date == weekString) {
-      //     this.$http({
-      //       url: "/admin/getWorkerList",
-      //       method: "post",
-      //       crossdomain: true,
-      //       body:JSON.stringify({
-      //         "schedule": weekString,
-      //         "role":0
-      //       })
-      //     }).then(res => {
-      //       // console.log(res.data);
-      //       this.scheduleData[i].consultant_list = res.data.data;
-      //       this.scheduleData[i].consultant="咨询师："+res.data.data.length;
-      //       // console.log(this.scheduleData)
-      //     }).catch(err => {
-      //       console.log(err.data)
-      //     });
-      //     res = this.scheduleData[i].consultant
-      //     break
-      //   }
-      // }
-      var res=''
-      for(let i=0;i<1;i++) {
-        this.$http({
-          url: "/admin/getWorkerList",
-          method: "post",
-          crossdomain: true,
-          body: JSON.stringify({
-            "id": this.$store.state.userid
-          })
-        }).then(res => {
-          console.log("d")
-          console.log(res.data);
-          var temp = res.data.data[0].schedule
-          console.log(temp)
-          var reg = new RegExp(weekString);
-          //如果字符串中不包含目标字符会返回-1
-          if (temp.match(reg)) {
-            console.log("zhenggque")
-            this.isToday = true
-            res ='值班'
-          } else {
-            this.isToday = false
-            res ='休息'
-          }
-        }).catch(err => {
-          console.log(err.data)
-        });
-      }
-      return res
+      this.$http({
+        url: "/record/getRecordList",
+        method: "post",
+        crossdomain: true,
+        body:JSON.stringify({
+          // "role": 0,
+          "consultantID": this.$store.state.userid,
+
+        })
+      }).then(res => {
+        console.log(res.data.data);
+        this.dictTotal = res.data.data.length;
+        this.tableData=res.data.data
+      }).catch(err => {
+        console.log(err.data)
+      });
     },
     my_day(v) {
       var week=new Date(v).getDay();
@@ -231,31 +185,21 @@ export default {
         default:
           break
       }
-      this.$http({
-        url: "/admin/getWorkerList",
-        method: "post",
-        crossdomain: true,
-        body:JSON.stringify({
-          "id": this.$store.state.userid
-        })
-      }).then(res => {
-        console.log("d")
-        console.log(res.data);
-        var temp=res.data.data[0].schedule
-        console.log(temp)
-        var reg = new RegExp(weekString);
-        //如果字符串中不包含目标字符会返回-1
-        if(temp.match(reg)){
-          console.log("zhenggque")
-          this.isToday=true
-          return '值班'
-        }else {
-          this.isToday=false
-          return '休息'
-        }
-      }).catch(err => {
-        console.log(err.data)
-      });
+      console.log("d")
+      // console.log(res.data);
+      var res=""
+      var temp=this.$store.state.schedule
+      console.log(temp)
+      var reg = new RegExp(weekString);
+      //如果字符串中不包含目标字符会返回-1
+      if(temp.match(reg)){
+        console.log("zhenggque")
+        this.isToday=true
+        return '班'
+      }else {
+        this.isToday=false
+        return '休'
+      }
     },
 
     getConsultantList(){
@@ -294,6 +238,9 @@ export default {
         if(this.pageTicket.length===this.pagesize) break;
       }
     },
+    goDetail(){
+      this.$router.replace('/consultant/record')
+    },
     handleSizeChange(size){
       //修改当前每页的数据行数
       this.pagesize=size;
@@ -306,7 +253,22 @@ export default {
       this.currentpage=pageNumber;
       //数据重新分页
       this.getPageInfo()
-    }
+    },
+    stateFormat(row, column) {
+      if (row.level == 0) {
+        return ''
+      } else if (row.level < 1||row.level==1) {
+        return '⭐'
+      }else if (row.level < 2||row.level==2) {
+        return '⭐⭐'
+      } else if (row.level < 3||row.level==3) {
+        return '⭐⭐⭐'
+      }else if (row.level < 4||row.level==4) {
+        return '⭐⭐⭐⭐'
+      } else if(row.level<5||row.level==5){
+        return '⭐⭐⭐⭐⭐'
+      }
+    },
   }
 }
 </script>
@@ -318,7 +280,7 @@ export default {
   .div-1{
     position: relative;
     width: 100%;
-    height: 68%;
+    height: 70%;
     .left{
       position: absolute;
       width: 60%;
@@ -334,7 +296,7 @@ export default {
         //position: absolute;
         margin-top: 1%;
         width: 100%;
-        height: 50%;
+        height: 60%;
         background-color: white;
         overflow: hidden;
       }
@@ -357,7 +319,8 @@ export default {
   .div-2{
     position: relative;
     width: 100%;
-    height: 32%;
+    height: 30%;
+    background-color: white;
   }
 }
 </style>

@@ -8,9 +8,9 @@
     <div class="table">
       <el-table :data="tableData.slice((dictCurrentPage-1)*dictPageSize,dictCurrentPage*dictPageSize)" style="overflow:auto;width:100%;" height="90%" :header-cell-style="headClass">
         <!--      <el-table-column prop="id" label="编号" width="100px" />-->
-        <el-table-column prop="trueName" label="姓名" width="70px" fixed />
+        <el-table-column prop="trueName" label="姓名" width="120px" fixed />
         <el-table-column prop="gender" label="性别" width="50px"/>
-        <el-table-column prop="registerTime" label="注册时间" width="200px" align="center"/>
+        <el-table-column prop="registerTime" label="更新时间" width="200px" align="center"/>
         <el-table-column prop="phone" label="手机号码" width="200px"/>
         <el-table-column prop="emergencyName" label="紧急联系人" width="220px"/>
         <el-table-column prop="emergencyNumber" label="紧急联系人电话" align="center"/>

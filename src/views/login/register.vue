@@ -94,7 +94,7 @@ export default {
                 {
                   username: this.ruleForm.username,
                   password: this.ruleForm.password,
-                  role: 2
+                  role: 3
                 }}, { emulateJSON: true })
             .then((response) => {
               console.log(response.data)

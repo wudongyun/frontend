@@ -143,7 +143,7 @@ export default {
             crossdomain: true,
             body:JSON.stringify({
               "schedule": weekString,
-              "role":0
+              "role":1
             })
           }).then(res => {
             // console.log(res.data);
@@ -197,7 +197,7 @@ export default {
             crossdomain: true,
             body:JSON.stringify({
               "schedule": weekString,
-              "role":1
+              "role":2
             })
           }).then(res => {
             // console.log(res.data);
@@ -237,7 +237,7 @@ export default {
             crossdomain: true,
             body:JSON.stringify({
               "schedule": weekes[week],
-              "role":0
+              "role":1
             })
           }).then(res => {
             // console.log(res.data);
@@ -251,7 +251,7 @@ export default {
             crossdomain: true,
             body:JSON.stringify({
               "schedule": weekes[week],
-              "role":1
+              "role":2
             })
           }).then(res => {
             // console.log(res.data);
@@ -405,6 +405,7 @@ export default {
     right: 0px;
     top: 20px;
     height: 97%;
+    overflow: auto;
     .time_now{
       width: 100%;
       font-size: 1.5em;
@@ -412,6 +413,7 @@ export default {
       border-bottom: rgba(0,0,0,0.2) 1px solid;
     }
     .table{
+      overflow: auto;
       text-align: center;
       .el-tabs__item{
         font-size:20px !important;

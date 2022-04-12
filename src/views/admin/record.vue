@@ -155,13 +155,13 @@ export default {
     // 实时监听查询内容，更新列表
     seachRecord() {
       console.log('检测到变化' + this.name + this.time)
+      if(this.time==''||this.time==null){
       this.$http({
         url: "/record/getRecordList",
         method: "post",
         crossdomain: true,
         body:JSON.stringify({
           "customerTrueName": this.name,
-          // "role":0
         })
       }).then(res => {
         console.log(res.data.data);
@@ -170,6 +170,24 @@ export default {
       }).catch(err => {
         console.log(err.data)
       });
+      }else {
+        var time_temp=this.time.slice(1,this.time.length-1)+" 00:00:00"
+        this.$http({
+          url: "/record/getRecordList",
+          method: "post",
+          crossdomain: true,
+          body:JSON.stringify({
+            "customerTrueName": this.name,
+            "date":time_temp
+          })
+        }).then(res => {
+          console.log(res.data.data);
+          this.dictTotal = res.data.data.length;
+          this.tableData=res.data.data
+        }).catch(err => {
+          console.log(err.data)
+        });
+      }
     }
 
   }
