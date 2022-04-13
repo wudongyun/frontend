@@ -223,11 +223,16 @@ export default {
       }).catch(err => {
         console.log(err.data)
       });
+      var day=this.getNowFormatDate()
+      console.log(day)
+      var time_temp=day+" 00:00:00"
+      console.log(time_temp)
       this.$http({
         url: "/record/getTodayRecordInfo",
         method: "post",
         crossdomain: true,
         body:JSON.stringify({
+          "date":time_temp,
         })
       }).then(res => {
         console.log("sa")
@@ -249,6 +254,21 @@ export default {
         //判断是否达到一页的要求
         if(this.pageTicket.length===this.pagesize) break;
       }
+    },
+    getNowFormatDate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      return currentdate;
     },
     handleSizeChange(size){
       //修改当前每页的数据行数

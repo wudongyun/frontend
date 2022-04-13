@@ -705,17 +705,17 @@ export default {
       console.log(tab, event)
     },
     stateFormat(row, column) {
-      if (row.level === 0) {
+      if (row.level == 0) {
         return ''
-      } else if (row.level === 1) {
+      } else if (row.level < 1||row.level==1) {
         return '⭐'
-      }else if (row.level === 2) {
+      }else if (row.level < 2||row.level==2) {
         return '⭐⭐'
-      } else if (row.level === 3) {
+      } else if (row.level < 3||row.level==3) {
         return '⭐⭐⭐'
-      }else if (row.level === 4) {
+      }else if (row.level < 4||row.level==4) {
         return '⭐⭐⭐⭐'
-      } else {
+      } else if(row.level<5||row.level==5){
         return '⭐⭐⭐⭐⭐'
       }
     },

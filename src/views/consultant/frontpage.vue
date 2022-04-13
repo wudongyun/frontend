@@ -10,11 +10,11 @@
               <div style="margin-top: 5px">{{ information.trueName }}</div>
               <div style="margin-top: 5px">{{ information.age }}岁</div>
               <div v-if="information.level==0" style="margin-top: 5px"></div>
-              <div v-if="information.level==1" style="margin-top: 5px">⭐</div>
-              <div v-if="information.level==2" style="margin-top: 5px">⭐⭐</div>
-              <div v-if="information.level==3" style="margin-top: 5px">⭐⭐⭐</div>
-              <div v-if="information.level==4" style="margin-top: 5px">⭐⭐⭐⭐</div>
-              <div v-if="information.level==5" style="margin-top: 5px">⭐⭐⭐⭐⭐</div>
+              <div v-if="(information.level==1||information.level<1)&&information.level>0" style="margin-top: 5px">⭐</div>
+              <div v-if="(information.level==2||information.level<2)&&information.level>1" style="margin-top: 5px">⭐⭐</div>
+              <div v-if="information.level==3||information.level<3&&information.level>2" style="margin-top: 5px">⭐⭐⭐</div>
+              <div v-if="information.level==4||information.level<4&&information.level>3" style="margin-top: 5px">⭐⭐⭐⭐</div>
+              <div v-if="information.level==5||information.level<5&&information.level>4" style="margin-top: 5px">⭐⭐⭐⭐⭐</div>
             </div>
           </div>
           <div style="width: 25%;height: 49%;position: absolute;left: 30%;text-align: center;color: grey;background-color: white">
